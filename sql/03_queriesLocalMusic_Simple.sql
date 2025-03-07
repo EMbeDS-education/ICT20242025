@@ -36,22 +36,6 @@ FROM Album al JOIN Artist ar ON al.ArtistId = ar.ArtistId
 WHERE al.Title LIKE "__a_b%"
 
 
-/*
- * How many albums with title starting with S 
- * 		have been published by each artist
-*/
-SELECT ar.ArtistId , ar.Name , COUNT(*) as NAlbums 
-FROM Album al JOIN Artist ar ON al.ArtistId = ar.ArtistId
-WHERE al.Title LIKE "S%"
-GROUP BY ar.ArtistId , ar.Name 
-
-/*
- * For each album, count the number of songs in the album
-*/
-SELECT al.Title as AlbumName , COUNT(*) as NSongs
-FROM Album al join Track t on al.AlbumId = t.AlbumId 
-GROUP BY al.AlbumId , al.Title 
-
 
 /*
  * For each album with at least 10 songs, 
