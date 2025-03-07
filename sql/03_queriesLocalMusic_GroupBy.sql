@@ -102,7 +102,63 @@ GROUP BY al.AlbumId , al.Title
 
 
 
+------
 
+
+
+
+
+
+------
+
+
+
+
+
+/*
+ * For each album with at least 10 songs, 
+ * 	count the number of songs in the album
+*/
+SELECT al.Title as AlbumName , COUNT(*) as NSongs
+FROM Album al join Track t on al.AlbumId = t.AlbumId 
+GROUP BY al.AlbumId , al.Title 
+HAVING COUNT(*) >= 10
+
+
+/*
+ * RESTRCTING ONLY TO SONGS WITH TITLE STARTING WITH S:
+ * 	For each album with at least 5 songs (sarting with S), 
+ * 		count the number of songs (starting with S) in the album
+*/
+SELECT al.Title as AlbumName , COUNT(*) as NSongs
+FROM Album al join Track t on al.AlbumId = t.AlbumId 
+WHERE t.Name LIKE "S%"
+GROUP BY al.AlbumId , al.Title 
+HAVING COUNT(*) >= 5
+ORDER BY COUNT(*) ASC 
+
+
+
+/**
+For each album, calculate overall/min/max/avg length of songs
+**/
+SELECT al.Title , SUM(tr.Milliseconds)/1000 as 'Over',  
+				  MIN(tr.Milliseconds)/1000 as 'Min',
+				  MAX(tr.Milliseconds)/1000 as 'Max',
+				  AVG(tr.Milliseconds)/1000 as 'Avg'
+FROM Track tr JOIN Album al on al.AlbumId =tr.AlbumId 
+GROUP BY al.AlbumId , al.Title 
+
+/**
+For each album with more than 10 songs,
+   compute avg length of songs
+**/
+SELECT al.Title as AlbumName , 
+				COUNT(*) as NSongs, 
+				AVG(t.Milliseconds) as AvgLegnth 
+FROM Album al join Track t on al.AlbumId = t.AlbumId 
+GROUP BY al.AlbumId , al.Title 
+HAVING COUNT(*) >= 10
 
 
 
