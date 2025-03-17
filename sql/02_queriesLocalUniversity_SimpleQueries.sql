@@ -200,3 +200,21 @@ WHERE s.studentID NOT IN(
 		WHERE c.title = 'Programmazione1'
 	)
 
+--- Now I add a course and some exams
+--- I have all possible combinations: students that did not pass any exam, that passed pr1 and others, only others, ...
+INSERT INTO Courses  (code, title, program, teacher)
+VALUES ('ICT1','ICT1 DataBases',  'master', 'AV');
+INSERT INTO Exams (student, course, mark, laud)
+VALUES (111,'ICT1',  30, True);
+INSERT INTO Exams (student, course, mark, laud)
+VALUES (113,'ICT1',  29, False);
+
+
+SELECT s.studentID , s.surname, s.name
+FROM Students s
+where s.studentID not in (
+		SELECT s.studentID
+		FROM Exams e join Students s on s.studentID = e.student
+				join Courses c on c.code = e.course
+		WHERE c.title = "Programmazione1"
+	)
